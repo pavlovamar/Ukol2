@@ -5,10 +5,15 @@ import csv
 with open("vstup.csv", encoding = "utf-8", newline = '') as f:
     with open("vstup_7dni.csv", "w", encoding = "utf-8") as g:
         reader = csv.reader(f,delimiter=",")
-        next(reader)
         writer = csv.writer(g)
+        sum = 0
         for row in reader:
+            try:
+                sum += float(row[-1])
+            except ValueError:
+                pass
+            print(sum)
             datum = row[-2]
             prutok = row[-1]
-            outrow = [datum, prutok]
+            outrow = [datum, prutok, sum]
             writer.writerow(outrow)
