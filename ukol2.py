@@ -12,7 +12,7 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f:
                 sum += float(row[-1])
             except ValueError:
                 pass
-            print(sum)
+            print(round(sum, 4))
             datum = row[-2]
             prutok = row[-1]
             outrow = [datum, prutok, sum]
