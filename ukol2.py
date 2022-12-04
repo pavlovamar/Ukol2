@@ -12,8 +12,9 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f:
                 sum += float(row[-1])
             except ValueError:
                 pass
-            print(round(sum, 4))
+            print(sum)
+            vysledny_prutok = round(sum, 4)
             datum = row[-2]
             prutok = row[-1]
-            outrow = [datum, prutok, sum]
+            outrow = [datum, prutok, vysledny_prutok]
             writer.writerow(outrow)
