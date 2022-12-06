@@ -21,14 +21,16 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f:
             except ValueError:
                 pass
             if cislo_radku%7 == 1:                              #vypsání každého prvního dne v průměrovaném úseku
-                outrow = [row[0], row[1], row[2]]
-                writer.writerow(outrow)
+                datum = row[-2]
             if cislo_radku%7 == 0:                              #vypsání průměrného průtoku za sedm dní
                 prumerny_prutok = round(prutok/7, 4)
-                outrow = [prumerny_prutok]
+                outrow = [row[0], row[1], datum, prumerny_prutok]
                 writer.writerow(outrow)
-                sum = 0
-                cislo_radku = 0
+                prutok = 0
+            else:                                                   #Vypsání průtoku pokud není průměrovaný za sedm dní
+                prumerny_prutok = round(prutok/cislo_radku%7, 4)    
+        outrow = [row[0], row[1], datum, prumerny_prutok]
+        writer.writerow(outrow)                            
         print("Nejvyšší hodnota průtoku je " + str(max_prutok) + " a byla naměřena dne " + str(max_den))
         print("Nejnižsí hodnota průtoku je " + str(min_prutok) + " a byla naměřena dne " + str(min_den))
 
