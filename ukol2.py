@@ -72,7 +72,7 @@ try:
                 prvni_den = row[-2]
             pocet_dni += 1
             celkovy_prutok += float(row[-1])
-        prumerny_prutok = round(celkovy_prutok/pocet_dni, 4)
+        prumerny_prutok = round(celkovy_prutok/pocet_dni, 4)            #Vypočítání a vypsání posledního roku
         outrow = [row[0], row[1], prvni_den, "   " + str(prumerny_prutok)]
         writer2.writerow(outrow)
 except FileNotFoundError:
