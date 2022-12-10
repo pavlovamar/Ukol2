@@ -11,14 +11,12 @@ try:
             print("Soubor je prázdný!")
             quit()
         f.seek(0)
-        if not FileExistsError:
-            print("fsjf")
-        prutok = 0
+        celkovy_prutok = 0
         cislo_radku = 0
         max_prutok = 0
         min_prutok = inf
         for row in reader:
-            cislo_radku += 1                                        #očíslování řádků
+            cislo_radku += 1                                            
             denni_prutok = row[-1]
             try:
                 row[-1]  = float(denni_prutok)
@@ -28,26 +26,26 @@ try:
                 quit()
             if float(row[-1]) <= 0:
                 print("Ve dne " + str(row[-2]) + " byl zadán záporný či nulový průtok!")
-            if float(row[-1]) > max_prutok:                         #nejvyšší hodnota průtoku
+            if float(row[-1]) > max_prutok:                             #nejvyšší hodnota průtoku
                 max_prutok = float(row[-1])
                 max_den = row[-2]
-            if float(row[-1]) < min_prutok:                         #nejnižší hodnota průtoku
+            if float(row[-1]) < min_prutok:                             #nejnižší hodnota průtoku
                 min_prutok = float(row[-1])
                 min_den = row[-2]
             try:
-                prutok += float(row[-1])                            #celkový průtok
+                celkovy_prutok += float(row[-1])                    
             except ValueError:
                 pass
-            if cislo_radku%7 == 1:                                  #vypsání každého prvního dne v průměrovaném úseku
+            if cislo_radku%7 == 1:                                      #vypsání každého prvního dne v průměrovaném úseku
                 datum = row[-2]
-            if cislo_radku%7 == 0:                                  #vypsání průměrného průtoku za sedm dní
-                prumerny_prutok = round(prutok/7, 4)
+            if cislo_radku%7 == 0:                                      #vypsání průměrného průtoku za sedm dní
+                prumerny_prutok = round(celkovy_prutok/7, 4)
                 outrow = [row[0], row[1], datum, "   " + str(prumerny_prutok)]
                 writer.writerow(outrow)
                 prutok = 0
                 cislo_radku = 0
-            else:                                                   #Vypsání průtoku pokud není průměrovaný za sedm dní
-                prumerny_prutok = round(prutok/cislo_radku%7, 4)    
+            else:                                                       #Vypsání průtoku pokud není průměrovaný za sedm dní
+                prumerny_prutok = round(celkovy_prutok/cislo_radku%7, 4)    
         outrow = [row[0], row[1], datum, "   " + str(prumerny_prutok)]
         writer.writerow(outrow)
         print("Nejvyšší hodnota průtoku je " + str(max_prutok) + " a byla naměřena dne " + str(max_den))
@@ -59,12 +57,12 @@ try:
         prumerny_prutok = 0
         soucasny_rok = None
         for row in reader: 
-            datum = row[-2].split(".")                              #Rozdělí datum, abychom pak mohli porovnávat roky mezi sebou
+            datum = row[-2].split(".")                                  #Rozdělí datum, abychom pak mohli porovnávat roky mezi sebou
             rok = datum[-1]
             if soucasny_rok == None:
                 prvni_den = row[-2]
                 soucasny_rok = rok
-            elif soucasny_rok != rok:
+            elif soucasny_rok != rok:                                   #Vypočítání průměrného průtoku pokud se změní rok
                 prumerny_prutok = round(celkovy_prutok/pocet_dni, 4)
                 soucasny_rok = rok
                 celkovy_prutok = 0
