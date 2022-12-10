@@ -1,8 +1,9 @@
 import csv
 from math import inf
-with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
-    open("vystup_7dni.csv", "w", encoding = "utf-8") as g, \
-    open("vystup_rok.csv", "w", encoding = "utf-8") as h:
+try:
+    with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
+    open("vystup_7dni.csv", "w", encoding = "utf-8", newline = '') as g, \
+    open("vystup_rok.csv", "w", encoding = "utf-8", newline = '') as h:
         reader = csv.reader(f,delimiter=",")
         writer = csv.writer(g)
         writer2 = csv.writer(h)
@@ -10,6 +11,8 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
             print("Soubor je prázdný!")
             quit()
         f.seek(0)
+        if not FileExistsError:
+            print("fsjf")
         prutok = 0
         cislo_radku = 0
         max_prutok = 0
@@ -21,7 +24,7 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
                 row[-1]  = float(denni_prutok)
             except:
                 radek = cislo_radku
-                print("Špatně zadaný průtok! Nebyla zadána číselná hodnota průtoku!")
+                print("Ve dne " + str(row[-2]) + " byl špatně zadán průtok. Nebyla zadána číselná hodnota průtoku!")
                 quit()
             if float(row[-1]) <= 0:
                 print("Ve dne " + str(row[-2]) + " byl zadán záporný či nulový průtok!")
@@ -46,7 +49,7 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
             else:                                                   #Vypsání průtoku pokud není průměrovaný za sedm dní
                 prumerny_prutok = round(prutok/cislo_radku%7, 4)    
         outrow = [row[0], row[1], datum, "   " + str(prumerny_prutok)]
-        writer.writerow(outrow)                            
+        writer.writerow(outrow)
         print("Nejvyšší hodnota průtoku je " + str(max_prutok) + " a byla naměřena dne " + str(max_den))
         print("Nejnižsí hodnota průtoku je " + str(min_prutok) + " a byla naměřena dne " + str(min_den))
 
@@ -74,6 +77,5 @@ with open("vstup.csv", encoding = "utf-8", newline = '') as f, \
         prumerny_prutok = round(celkovy_prutok/pocet_dni, 4)
         outrow = [row[0], row[1], prvni_den, "   " + str(prumerny_prutok)]
         writer2.writerow(outrow)
-
-
-
+except FileNotFoundError:
+    print("Soubor nebyl nalezen")
